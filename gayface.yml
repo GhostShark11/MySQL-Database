@@ -1,0 +1,11 @@
+env:
+DB_HOST: ${{ secrets.DB_HOST }}
+DB_USER: ${{ secrets.DB_USER }}
+DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
+services:
+mysql:
+image: mysql:8.0
+env: MYSQL_ROOT_PASSWORD: password
+MYSQL_DATABASE: testdb
+ports: - 3306: 3306
