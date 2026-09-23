@@ -1,16 +1,14 @@
--- =====================================================================
--- BASIS DATA SISTEM BIODATA DOSEN
--- Berdasarkan ERD: DOSEN - PENDIDIKAN - PUBLIKASI - MATAKULIAH - AKTIVITAS_LAIN
--- Dialek: MySQL / MariaDB (bisa dijalankan langsung via mysql client / phpMyAdmin)
--- =====================================================================
+=====================================================================
+BASIS DATA SISTEM BIODATA DOSEN
+=====================================================================
 
 DROP DATABASE IF EXISTS biodata_dosen;
 CREATE DATABASE biodata_dosen;
 USE biodata_dosen;
 
--- =====================================================================
--- 1. TABEL DOSEN (entitas utama)
--- =====================================================================
+=====================================================================
+1. TABEL DOSEN (entitas utama)
+=====================================================================
 CREATE TABLE dosen (
     nip           VARCHAR(20)  NOT NULL,
     nama          VARCHAR(100) NOT NULL,
@@ -24,9 +22,9 @@ CREATE TABLE dosen (
     CONSTRAINT uq_dosen_email UNIQUE (email)
 ) ENGINE=InnoDB;
 
--- =====================================================================
--- 2. TABEL PENDIDIKAN (relasi "lakukan": 1 dosen - N pendidikan)
--- =====================================================================
+=====================================================================
+2. TABEL PENDIDIKAN (relasi "lakukan": 1 dosen - N pendidikan)
+=====================================================================
 CREATE TABLE pendidikan (
     id_pendidikan INT AUTO_INCREMENT,
     nip_dosen     VARCHAR(20)  NOT NULL,
@@ -44,9 +42,9 @@ CREATE TABLE pendidikan (
     CONSTRAINT chk_pendidikan_tahun CHECK (thn_keluar IS NULL OR thn_keluar >= thn_masuk)
 ) ENGINE=InnoDB;
 
--- =====================================================================
--- 3. TABEL PUBLIKASI (relasi "miliki": 1 dosen - N publikasi)
--- =====================================================================
+=====================================================================
+3. TABEL PUBLIKASI (relasi "miliki": 1 dosen - N publikasi)
+=====================================================================
 CREATE TABLE publikasi (
     id_publikasi         INT AUTO_INCREMENT,
     nip_dosen            VARCHAR(20)  NOT NULL,
@@ -62,9 +60,9 @@ CREATE TABLE publikasi (
     CONSTRAINT chk_publikasi_jenis CHECK (jurnal_atau_seminar IN ('Jurnal','Seminar'))
 ) ENGINE=InnoDB;
 
--- =====================================================================
--- 4. TABEL MATAKULIAH (relasi "ajar": 1 dosen - N matakuliah)
--- =====================================================================
+=====================================================================
+4. TABEL MATAKULIAH (relasi "ajar": 1 dosen - N matakuliah)
+=====================================================================
 CREATE TABLE matakuliah (
     id_matakuliah INT AUTO_INCREMENT,
     nip_dosen     VARCHAR(20)  NOT NULL,
@@ -81,9 +79,9 @@ CREATE TABLE matakuliah (
     CONSTRAINT uq_matakuliah_offering UNIQUE (kode_mk, thn_ajaran, nip_dosen)
 ) ENGINE=InnoDB;
 
--- =====================================================================
--- 5. TABEL AKTIVITAS_LAIN (relasi "lakukan": 1 dosen - N aktivitas_lain)
--- =====================================================================
+=====================================================================
+5. TABEL AKTIVITAS_LAIN (relasi "lakukan": 1 dosen - N aktivitas_lain)
+=====================================================================
 CREATE TABLE aktivitas_lain (
     id_aktivitas   INT AUTO_INCREMENT,
     nip_dosen      VARCHAR(20)  NOT NULL,
@@ -100,13 +98,13 @@ CREATE TABLE aktivitas_lain (
 ) ENGINE=InnoDB;
 
 
--- =====================================================================
--- INSERT DATA
--- =====================================================================
+=====================================================================
+INSERT DATA
+=====================================================================
 
--- ---------------------------------------------------------------------
--- DATA DOSEN (6 data)
--- ---------------------------------------------------------------------
+---------------------------------------------------------------------
+DATA DOSEN (6 data)
+---------------------------------------------------------------------
 INSERT INTO dosen (nip, nama, pangkat, jabatan, prodi, fakultas, email, no_hp) VALUES
 ('198501012010121001', 'Dr. Ahmad Fauzi, M.Kom.',      'Penata Muda Tk. I', 'Lektor',           'Teknik Informatika', 'Teknik',          'ahmad.fauzi@usk.ac.id',   '081234567801'),
 ('198703152011122002', 'Siti Rahmawati, M.Sc.',         'Penata',            'Lektor Kepala',    'Sistem Informasi',  'Teknik',          'siti.rahmawati@usk.ac.id','081234567802'),
@@ -115,9 +113,9 @@ INSERT INTO dosen (nip, nama, pangkat, jabatan, prodi, fakultas, email, no_hp) V
 ('199206102018121005', 'Teuku Iskandar, M.Cs.',         'Penata Muda Tk. I', 'Asisten Ahli',     'Teknik Informatika', 'Teknik',          'teuku.iskandar@usk.ac.id','081234567805'),
 ('198409302012032006', 'Prof. Dr. Rina Marlina, M.T.',  'Pembina Utama',     'Guru Besar',       'Teknik Elektro',    'Teknik',          'rina.marlina@usk.ac.id',  '081234567806');
 
--- ---------------------------------------------------------------------
--- DATA PENDIDIKAN (7 data)
--- ---------------------------------------------------------------------
+---------------------------------------------------------------------
+DATA PENDIDIKAN (7 data)
+---------------------------------------------------------------------
 INSERT INTO pendidikan (nip_dosen, nama_univ, jenjang, gelar, kota, bidang, thn_masuk, thn_keluar) VALUES
 ('198501012010121001', 'Universitas Syiah Kuala',   'S1', 'S.Kom.', 'Banda Aceh', 'Ilmu Komputer',        2003, 2007),
 ('198501012010121001', 'Institut Teknologi Bandung','S3', 'Dr.',    'Bandung',    'Ilmu Komputer',        2012, 2016),
@@ -127,9 +125,9 @@ INSERT INTO pendidikan (nip_dosen, nama_univ, jenjang, gelar, kota, bidang, thn_
 ('199206102018121005', 'Universitas Syiah Kuala',   'S2', 'M.Cs.',  'Banda Aceh', 'Ilmu Komputer',        2014, 2016),
 ('198409302012032006', 'National Univ. of Singapore','S3','Prof.',  'Singapura',  'Teknik Elektro',       2005, 2009);
 
--- ---------------------------------------------------------------------
--- DATA PUBLIKASI (8 data)
--- ---------------------------------------------------------------------
+---------------------------------------------------------------------
+DATA PUBLIKASI (8 data)
+---------------------------------------------------------------------
 INSERT INTO publikasi (nip_dosen, tahun, judul_publikasi, jurnal_atau_seminar, judul_jurnal_seminar, penulis, lokasi) VALUES
 ('198501012010121001', 2020, 'Implementasi IoT untuk Smart Campus',                 'Jurnal',  'Jurnal Teknik Informatika USK',         'Ahmad Fauzi, Rizki',       'Banda Aceh'),
 ('198501012010121001', 2022, 'Optimasi Algoritma Genetika pada Penjadwalan',        'Seminar', 'Seminar Nasional Informatika',          'Ahmad Fauzi',              'Jakarta'),
@@ -140,9 +138,9 @@ INSERT INTO publikasi (nip_dosen, tahun, judul_publikasi, jurnal_atau_seminar, j
 ('198812052014031004', 2023, 'Penerapan Machine Learning pada Prediksi Kelulusan', 'Jurnal',  'Jurnal Teknik Informatika USK',         'Cut Nabila, Rizki',        'Banda Aceh'),
 ('199206102018121005', 2022, 'Pengembangan Aplikasi Mobile untuk Layanan Kampus',  'Seminar', 'Seminar Nasional Sistem Informasi',     'Teuku Iskandar',           'Banda Aceh');
 
--- ---------------------------------------------------------------------
--- DATA MATAKULIAH (8 data)
--- ---------------------------------------------------------------------
+---------------------------------------------------------------------
+DATA MATAKULIAH (8 data)
+---------------------------------------------------------------------
 INSERT INTO matakuliah (nip_dosen, kode_mk, nama_mk, deskripsi, thn_ajaran, semester, jadwal, url) VALUES
 ('198501012010121001', 'TIF101', 'Jaringan Komputer',        'Konsep dasar jaringan dan protokol komunikasi', '2023/2024', 'Ganjil', 'Senin 08:00-10:00', 'https://elearning.usk.ac.id/tif101'),
 ('198501012010121001', 'TIF201', 'Keamanan Jaringan',        'Prinsip keamanan siber dan jaringan',           '2023/2024', 'Genap',  'Selasa 10:00-12:00','https://elearning.usk.ac.id/tif201'),
@@ -153,9 +151,9 @@ INSERT INTO matakuliah (nip_dosen, kode_mk, nama_mk, deskripsi, thn_ajaran, seme
 ('198409302012032006', 'TEL201', 'Sistem Kendali',           'Dasar-dasar sistem kendali otomatis',           '2023/2024', 'Genap',  'Selasa 08:00-10:00','https://elearning.usk.ac.id/tel201'),
 ('198501012010121001', 'TIF101', 'Jaringan Komputer',        'Konsep dasar jaringan dan protokol komunikasi', '2024/2025', 'Ganjil', 'Senin 08:00-10:00', 'https://elearning.usk.ac.id/tif101');
 
--- ---------------------------------------------------------------------
--- DATA AKTIVITAS_LAIN (6 data)
--- ---------------------------------------------------------------------
+---------------------------------------------------------------------
+DATA AKTIVITAS_LAIN (6 data)
+---------------------------------------------------------------------
 INSERT INTO aktivitas_lain (nip_dosen, nama_kegiatan, deskripsi, peran, lokasi, tgl_mulai, tgl_akhir) VALUES
 ('198501012010121001', 'Pelatihan Dosen Nasional',        'Pelatihan peningkatan kompetensi dosen',   'Peserta',    'Jakarta',    '2023-03-01', '2023-03-05'),
 ('198703152011122002', 'Workshop Kurikulum Merdeka',      'Penyusunan kurikulum berbasis OBE',        'Narasumber', 'Banda Aceh', '2023-05-10', '2023-05-12'),
@@ -165,11 +163,9 @@ INSERT INTO aktivitas_lain (nip_dosen, nama_kegiatan, deskripsi, peran, lokasi, 
 ('198409302012032006', 'Seminar Nasional Teknik Elektro', 'Menjadi keynote speaker seminar nasional', 'Keynote Speaker','Medan',  '2023-10-10', '2023-10-11');
 
 
--- =====================================================================
--- QUERY 1: Melibatkan SATU tabel, dilengkapi GROUP BY dan ORDER BY
--- Tema: Menghitung jumlah dosen per jabatan fungsional, diurutkan dari
---       jumlah terbanyak ke paling sedikit
--- =====================================================================
+=====================================================================
+QUERY 1: Melibatkan SATU tabel, dilengkapi GROUP BY dan ORDER BY
+=====================================================================
 SELECT
     jabatan,
     COUNT(*) AS jumlah_dosen
@@ -178,11 +174,9 @@ GROUP BY jabatan
 ORDER BY jumlah_dosen DESC;
 
 
--- =====================================================================
--- QUERY 2: Melibatkan SATU tabel, dilengkapi HAVING
--- Tema: Menampilkan dosen (berdasarkan NIP) yang memiliki lebih dari 1
---       publikasi, beserta jumlah publikasinya
--- =====================================================================
+=====================================================================
+QUERY 2: Melibatkan SATU tabel, dilengkapi HAVING
+=====================================================================
 SELECT
     nip_dosen,
     COUNT(*) AS jumlah_publikasi
