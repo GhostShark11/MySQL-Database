@@ -1,15 +1,9 @@
 -- =====================================================================
 -- TUGAS PRAKTIKUM 2 - AUDIT KILAT PERUSAHAAN HR CORP
 -- Oracle Database XE 21c | DBeaver | Skema HR
---
 -- Nama : Zaw Thein Htet
 -- NPM  : 250810701100118
 -- employee_id = 1000 + 118 = 1118 | email = ZTH250810701100118
--- Jalankan per bagian (blok per blok) dengan Ctrl+Enter, atau seluruh
--- script dengan Alt+X. Ambil screenshot setiap hasil.
--- =====================================================================
-
-
 -- =====================================================================
 -- BAGIAN 1: Menghubungkan Diri ke Perusahaan
 -- Koneksi dibuat lewat UI DBeaver:
@@ -19,13 +13,10 @@
 --   Service name : XEPDB1
 --   User         : hr
 -- Query berikut hanya untuk memastikan koneksi aktif sebagai user HR.
--- =====================================================================
 SELECT SYS_CONTEXT('USERENV', 'SESSION_USER') AS pengguna_aktif,
        SYS_CONTEXT('USERENV', 'CON_NAME')     AS nama_database
 FROM dual;
-
 SELECT COUNT(*) AS jumlah_karyawan FROM employees;
-
 
 -- =====================================================================
 -- BAGIAN 2: Simulasi Bonus Akhir Tahun (Operator)
@@ -43,11 +34,8 @@ FROM employees
 WHERE department_id = 100
 ORDER BY total_gaji_setahun_plus_bonus DESC;
 
-
 -- =====================================================================
 -- BAGIAN 3: Laporan Rapi untuk Direksi (Fungsi)
--- =====================================================================
-
 -- BAGIAN 3.1: Gaji per hari (ROUND), departemen Finance (ID 100)
 SELECT last_name                     AS nama_belakang,
        ROUND(salary * 12 / 365, 2)   AS gaji_per_hari
@@ -104,13 +92,10 @@ GROUP BY department_id
 HAVING SUM(salary) * 12 > 500000
 ORDER BY total_gaji_setahun DESC;
 
-
 -- =====================================================================
 -- BAGIAN 4: Menyambut Karyawan Baru (DML)
 -- employee_id = 1000 + tiga digit terakhir NIM (contoh: 1118)
 -- Aturan: DELETE hanya memakai WHERE employee_id = ... milikmu sendiri.
--- =====================================================================
-
 -- BAGIAN 4.0: Kondisi awal (sebelum INSERT) - harus 0 baris
 SELECT * FROM employees WHERE employee_id = 1118;
 
@@ -140,11 +125,8 @@ COMMIT;
 -- Bukti sesudah DELETE - harus 0 baris
 SELECT * FROM employees WHERE employee_id = 1118;
 
-
 -- =====================================================================
 -- BAGIAN 5: Dashboard Mini (View)
--- =====================================================================
-
 -- BAGIAN 5.1: Buat view lewat SQL Editor (karyawan departemen Finance)
 CREATE VIEW V_RINGKASAN_250810701100118 AS
 SELECT first_name || ' ' || last_name AS nama_lengkap,
@@ -168,16 +150,12 @@ WHERE department_id IN (60, 100);
 --   > Save/Persist. Screenshot prosesnya.
 -- JALANKAN BAGIAN 5.3 SEBELUM BARIS SELECT V_MENU DI BAWAH, kalau tidak
 -- akan muncul ORA-00942 (table or view does not exist).
-
 -- BAGIAN 5.4: Panggil kedua view
 SELECT * FROM V_RINGKASAN_250810701100118;
 SELECT * FROM V_MENU_250810701100118;
 
-
 -- =====================================================================
 -- BAGIAN 6: Soal Modul
--- =====================================================================
-
 -- BAGIAN 6.1: Karyawan yang masuk kerja tahun 2005 sampai 2007
 SELECT first_name, last_name, hire_date
 FROM employees
